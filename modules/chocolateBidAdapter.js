@@ -72,6 +72,18 @@ function buildRequests(validBidRequests) {
       sspData.pid = bidRequest.params.placementId;
       sspData.sid = bidRequest.params.siteId;
       sspData.ak = bidRequest.params.apiKey;
+      sspData.adFormat = bidRequest.params.adFormat;
+      sspData.channelType = bidRequest.params.channelType;
+      sspData.pageURL = bidRequest.params.pageURL;
+      sspData.domain = bidRequest.params.domain;
+      sspData.siteName = bidRequest.params.siteName;
+      sspData.apiFramework = bidRequest.params.apiFramework;
+      sspData.displayManager = bidRequest.params.displayManager;
+      sspData.displayManagerVer = bidRequest.params.displayManagerVer;
+      sspData.version = bidRequest.params.version;
+      sspData.dnt = bidRequest.params.dnt;
+      sspData.gdpr = bidRequest.params.gdpr;
+      sspData.consent = bidRequest.params.consent;
       sspData.prebid = true;
 
       // optional parameters
