@@ -12,9 +12,9 @@ const PARAM_SUPPORT_DEFAULT = 'html5';
 const PARAM_PLAYINIT_DEFAULT = 'auto';
 const PARAM_VOLUME_DEFAULT = '100';
 
-function _validateId(id) {
-  console.log('validate')
-  if (id && typeof id !== 'undefined' && parseInt(id) > 0) {
+function _isValidString(someStr) {
+  console.log('_isValidString')
+  if (someStr && typeof someStr !== 'undefined') {
     return true;
   }
 
@@ -24,20 +24,30 @@ function _validateId(id) {
 function isBidRequestValid(bidRequest) {
   console.log('isBidRequestValid')
   if (bidRequest.bidder === BIDDER_CODE && typeof bidRequest.params !== 'undefined') {
-    console.log('A')
-    if (_validateId(bidRequest.params.siteId) && _validateId(bidRequest.params.placementId)) {
-      console.log('true')
+    if (_isValidString(bidRequest.params.apiKey) &&
+      _isValidString(bidRequest.params.adFormat) &&
+      _isValidString(bidRequest.params.channelType) &&
+      _isValidString(bidRequest.params.pageURL) &&
+      _isValidString(bidRequest.params.domain) &&
+      _isValidString(bidRequest.params.siteName) &&
+      _isValidString(bidRequest.params.apiFramework) &&
+      _isValidString(bidRequest.params.displayManager) &&
+      _isValidString(bidRequest.params.displayManagerVer) &&
+      _isValidString(bidRequest.params.version) &&
+      _isValidString(bidRequest.params.di) &&
+      _isValidString(bidRequest.params.dif) &&
+      _isValidString(bidRequest.params.size)) {
+      console.log('isBidRequestValid: true')
       return true;
     }
   }
-  console.log('false')
+  console.log('isBidRequestValid: not a valid bid request; check website required bid params')
   return false;
 }
 
 function buildRequests(validBidRequests) {
   console.log('buildRequests')
   let bidRequests = [];
-  console.log('here')
   for (let i = 0; i < validBidRequests.length; i++) {
     let bidRequest = validBidRequests[i];
 
@@ -69,8 +79,6 @@ function buildRequests(validBidRequests) {
       let sspData = {};
 
       // required parameters
-      sspData.pid = bidRequest.params.placementId;
-      sspData.sid = bidRequest.params.siteId;
       sspData.ak = bidRequest.params.apiKey;
       sspData.adFormat = bidRequest.params.adFormat;
       sspData.channelType = bidRequest.params.channelType;
@@ -81,9 +89,9 @@ function buildRequests(validBidRequests) {
       sspData.displayManager = bidRequest.params.displayManager;
       sspData.displayManagerVer = bidRequest.params.displayManagerVer;
       sspData.version = bidRequest.params.version;
-      sspData.dnt = bidRequest.params.dnt;
-      sspData.gdpr = bidRequest.params.gdpr;
-      sspData.consent = bidRequest.params.consent;
+      sspData.di = bidRequest.params.di;
+      sspData.dif = bidRequest.params.dif;
+      sspData.size = bidRequest.params.size;
       sspData.prebid = true;
 
       // optional parameters
@@ -136,6 +144,9 @@ function buildRequests(validBidRequests) {
       if (bidRequest.params.hasOwnProperty('gdpr') && bidRequest.params.gdpr != null) {
         sspData.gdpr = bidRequest.params.gdpr;
       }
+      if (bidRequest.params.hasOwnProperty('consent') && bidRequest.params.consent != null) {
+        sspData.consent = bidRequest.params.consent;
+      }
       if (bidRequest.params.hasOwnProperty('gdprcs') && bidRequest.params.gdprcs != null) {
         sspData.gdprcs = bidRequest.params.gdprcs;
       }
@@ -170,7 +181,7 @@ function buildRequests(validBidRequests) {
         sspData.contenturl = bidRequest.params.contentUrl;
       }
 
-      console.log('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak)
+      console.log('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework + ' di: ' + sspData.di)
 
       // random number to prevent caching
       sspData.rnd = Math.floor(Math.random() * 999999999);
@@ -216,7 +227,6 @@ function interpretResponse(serverResponse, bidRequest) {
             bidResponse.vastUrl = '';
             bidResponse.vastXml = responseObj.seatbid[0].bid[0].adm;
             bidResponse.cpm = responseObj.seatbid[0].bid[0].price;
-            bidResponse.cpm = 10;
             bidResponse.creativeId = responseObj.seatbid[0].bid[0].crid;
             console.log('bidResponse.vastXml: ' + bidResponse.vastXml);
             bidResponse.currency = responseObj.cur;
