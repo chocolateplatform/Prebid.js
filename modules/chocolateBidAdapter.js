@@ -24,19 +24,24 @@ function _isValidString(someStr) {
 function isBidRequestValid(bidRequest) {
   console.log('isBidRequestValid')
   if (bidRequest.bidder === BIDDER_CODE && typeof bidRequest.params !== 'undefined') {
-    if (_isValidString(bidRequest.params.apiKey) &&
+    if (_isValidString(bidRequest.params.ak) &&
       _isValidString(bidRequest.params.adFormat) &&
       _isValidString(bidRequest.params.channelType) &&
       _isValidString(bidRequest.params.pageURL) &&
       _isValidString(bidRequest.params.domain) &&
       _isValidString(bidRequest.params.siteName) &&
+      _isValidString(bidRequest.params.category) &&
       _isValidString(bidRequest.params.apiFramework) &&
-      _isValidString(bidRequest.params.displayManager) &&
-      _isValidString(bidRequest.params.displayManagerVer) &&
       _isValidString(bidRequest.params.version) &&
       _isValidString(bidRequest.params.di) &&
       _isValidString(bidRequest.params.dif) &&
       _isValidString(bidRequest.params.size)) {
+      if (bidRequest.params.hasOwnProperty('requester') && bidRequest.params.requester != null) {
+        if (bidRequest.params.hasOwnProperty('requesterClose') && bidRequest.params.requesterClose != null) {
+          return parseInt(bidRequest.params.requesterClose) >= -1;
+        }
+      }
+
       console.log('isBidRequestValid: true')
       return true;
     }
@@ -79,15 +84,14 @@ function buildRequests(validBidRequests) {
       let sspData = {};
 
       // required parameters
-      sspData.ak = bidRequest.params.apiKey;
+      sspData.ak = bidRequest.params.ak;
       sspData.adFormat = bidRequest.params.adFormat;
       sspData.channelType = bidRequest.params.channelType;
       sspData.pageURL = bidRequest.params.pageURL;
       sspData.domain = bidRequest.params.domain;
       sspData.siteName = bidRequest.params.siteName;
+      sspData.category = bidRequest.params.category;
       sspData.apiFramework = bidRequest.params.apiFramework;
-      sspData.displayManager = bidRequest.params.displayManager;
-      sspData.displayManagerVer = bidRequest.params.displayManagerVer;
       sspData.version = bidRequest.params.version;
       sspData.di = bidRequest.params.di;
       sspData.dif = bidRequest.params.dif;
@@ -126,20 +130,16 @@ function buildRequests(validBidRequests) {
       if (playerHeight) {
         sspData.height = playerHeight;
       }
-      if (bidRequest.params.hasOwnProperty('vpaidmode') && bidRequest.params.vpaidmode != null) {
-        sspData.vpaidmode = bidRequest.params.vpaidmode;
+
+      // optional chocolate parameters
+      if (bidRequest.params.hasOwnProperty('testEndPoint') && bidRequest.params.testEndPoint != null) {
+        sspUrl = bidRequest.params.testEndPoint;
       }
-      if (bidRequest.params.hasOwnProperty('appname') && bidRequest.params.appname != null) {
-        sspData.appname = bidRequest.params.appname;
+      if (bidRequest.params.hasOwnProperty('displayManager') && bidRequest.params.displayManager != null) {
+        sspData.displayManager = bidRequest.params.displayManager;
       }
-      if (bidRequest.params.hasOwnProperty('bundleid') && bidRequest.params.bundleid != null) {
-        sspData.bundleid = bidRequest.params.bundleid;
-      }
-      if (bidRequest.params.hasOwnProperty('aid') && bidRequest.params.aid != null) {
-        sspData.aid = bidRequest.params.aid;
-      }
-      if (bidRequest.params.hasOwnProperty('idfa') && bidRequest.params.idfa != null) {
-        sspData.idfa = bidRequest.params.idfa;
+      if (bidRequest.params.hasOwnProperty('displayManagerVer') && bidRequest.params.displayManagerVer != null) {
+        sspData.displayManagerVer = bidRequest.params.displayManagerVer;
       }
       if (bidRequest.params.hasOwnProperty('gdpr') && bidRequest.params.gdpr != null) {
         sspData.gdpr = bidRequest.params.gdpr;
@@ -147,40 +147,108 @@ function buildRequests(validBidRequests) {
       if (bidRequest.params.hasOwnProperty('consent') && bidRequest.params.consent != null) {
         sspData.consent = bidRequest.params.consent;
       }
-      if (bidRequest.params.hasOwnProperty('gdprcs') && bidRequest.params.gdprcs != null) {
-        sspData.gdprcs = bidRequest.params.gdprcs;
-      }
-      if (bidRequest.params.hasOwnProperty('flrd') && bidRequest.params.flrd != null) {
-        sspData.flrd = bidRequest.params.flrd;
-      }
-      if (bidRequest.params.hasOwnProperty('flrmp') && bidRequest.params.flrmp != null) {
-        sspData.flrmp = bidRequest.params.flrmp;
-      }
-      if (bidRequest.params.hasOwnProperty('placement') && bidRequest.params.placement != null) {
-        sspData.placement = bidRequest.params.placement;
-      }
-      if (bidRequest.params.hasOwnProperty('timeout') && bidRequest.params.timeout != null) {
-        sspData.timeout = bidRequest.params.timeout;
-      }
       if (bidRequest.params.hasOwnProperty('dnt') && bidRequest.params.dnt != null) {
         sspData.dnt = bidRequest.params.dnt;
       }
-      if (bidRequest.params.hasOwnProperty('pageurl') && bidRequest.params.pageurl != null) {
-        sspData.pageurl = bidRequest.params.pageurl;
+      if (bidRequest.params.hasOwnProperty('requester') && bidRequest.params.requester != null) {
+        sspData.requester = bidRequest.params.requester;
+
+        if (bidRequest.params.hasOwnProperty('requesterClose') && bidRequest.params.requesterClose != null) {
+          sspData.requesterClose = bidRequest.params.requesterClose;
+        }
       }
-      if (bidRequest.params.hasOwnProperty('contentId') && bidRequest.params.contentId != null) {
-        sspData.contentid = bidRequest.params.contentId;
+      if (bidRequest.params.hasOwnProperty('refURL') && bidRequest.params.refURL != null) {
+        sspData.refURL = bidRequest.params.refURL;
       }
-      if (bidRequest.params.hasOwnProperty('contentTitle') && bidRequest.params.contentTitle != null) {
-        sspData.contenttitle = bidRequest.params.contentTitle;
+      if (bidRequest.params.hasOwnProperty('ua') && bidRequest.params.ua != null) {
+        sspData.ua = bidRequest.params.ua;
       }
-      if (bidRequest.params.hasOwnProperty('contentLength') && bidRequest.params.contentLength != null) {
-        sspData.contentlength = bidRequest.params.contentLength;
+      if (bidRequest.params.hasOwnProperty('ipAddress') && bidRequest.params.ipAddress != null) {
+        sspData.ipAddress = bidRequest.params.ipAddress;
       }
-      if (bidRequest.params.hasOwnProperty('contentUrl') && bidRequest.params.contentUrl != null) {
-        sspData.contenturl = bidRequest.params.contentUrl;
+      if (bidRequest.params.hasOwnProperty('serveBanner') && bidRequest.params.serveBanner != null) {
+        sspData.serveBanner = bidRequest.params.serveBanner;
+      }
+      if (bidRequest.params.hasOwnProperty('autorender') && bidRequest.params.autorender != null) {
+        sspData.autorender = bidRequest.params.autorender;
+      }
+      if (bidRequest.params.hasOwnProperty('showClose') && bidRequest.params.showClose != null) {
+        sspData.showClose = bidRequest.params.showClose;
+      }
+      if (bidRequest.params.hasOwnProperty('closeTimeout') && bidRequest.params.closeTimeout != null) {
+        sspData.closeTimeout = bidRequest.params.closeTimeout;
+      }
+      if (bidRequest.params.hasOwnProperty('loop') && bidRequest.params.loop != null) {
+        sspData.loop = bidRequest.params.loop;
+      }
+      if (bidRequest.params.hasOwnProperty('sleepAfter') && bidRequest.params.sleepAfter != null) {
+        sspData.sleepAfter = bidRequest.params.sleepAfter;
+      }
+      if (bidRequest.params.hasOwnProperty('container') && bidRequest.params.container != null) {
+        sspData.container = bidRequest.params.container;
+      }
+      if (bidRequest.params.hasOwnProperty('locbot') && bidRequest.params.locbot != null) {
+        sspData.locbot = bidRequest.params.locbot;
+      }
+      if (bidRequest.params.hasOwnProperty('target_params') && bidRequest.params.target_params != null) {
+        sspData.target_params = bidRequest.params.target_params;
+      }
+      if (bidRequest.params.hasOwnProperty('invtracker') && bidRequest.params.invtracker != null) {
+        sspData.invtracker = bidRequest.params.invtracker;
+      }
+      if (bidRequest.params.hasOwnProperty('pubendTrk') && bidRequest.params.pubendTrk != null) {
+        sspData.pubendTrk = bidRequest.params.pubendTrk;
+      }
+      if (bidRequest.params.hasOwnProperty('pubct') && bidRequest.params.pubct != null) {
+        sspData.pubct = bidRequest.params.pubct;
       }
 
+      // optional chocolate targeting parameters
+      if (bidRequest.params.hasOwnProperty('sex') && bidRequest.params.sex != null) {
+        sspData.sex = bidRequest.params.sex;
+      }
+      if (bidRequest.params.hasOwnProperty('birthday') && bidRequest.params.birthday != null) {
+        sspData.birthday = bidRequest.params.birthday;
+      }
+      if (bidRequest.params.hasOwnProperty('ethnicity') && bidRequest.params.ethnicity != null) {
+        sspData.ethnicity = bidRequest.params.ethnicity;
+      }
+      if (bidRequest.params.hasOwnProperty('age') && bidRequest.params.age != null) {
+        sspData.age = bidRequest.params.age;
+      }
+      if (bidRequest.params.hasOwnProperty('maritalstatus') && bidRequest.params.maritalstatus != null) {
+        sspData.maritalstatus = bidRequest.params.maritalstatus;
+      }
+      if (bidRequest.params.hasOwnProperty('postalcode') && bidRequest.params.postalcode != null) {
+        sspData.postalcode = bidRequest.params.postalcode;
+      }
+      if (bidRequest.params.hasOwnProperty('currpostal') && bidRequest.params.currpostal != null) {
+        sspData.currpostal = bidRequest.params.currpostal;
+      }
+      if (bidRequest.params.hasOwnProperty('dmacode') && bidRequest.params.dmacode != null) {
+        sspData.dmacode = bidRequest.params.dmacode;
+      }
+      if (bidRequest.params.hasOwnProperty('latlong') && bidRequest.params.latlong != null) {
+        sspData.latlong = bidRequest.params.latlong;
+      }
+      if (bidRequest.params.hasOwnProperty('geoType') && bidRequest.params.geoType != null) {
+        sspData.geoType = bidRequest.params.geoType;
+      }
+      if (bidRequest.params.hasOwnProperty('geo') && bidRequest.params.geo != null) {
+        sspData.geo = bidRequest.params.geo;
+      }
+      if (bidRequest.params.hasOwnProperty('metro') && bidRequest.params.metro != null) {
+        sspData.metro = bidRequest.params.metro;
+      }
+      if (bidRequest.params.hasOwnProperty('keywords') && bidRequest.params.keywords != null) {
+        sspData.keywords = bidRequest.params.keywords;
+      }
+      if (bidRequest.params.hasOwnProperty('telhash') && bidRequest.params.telhash != null) {
+        sspData.telhash = bidRequest.params.telhash;
+      }
+      if (bidRequest.params.hasOwnProperty('emailhash') && bidRequest.params.emailhash != null) {
+        sspData.emailhash = bidRequest.params.emailhash;
+      }
       console.log('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework + ' di: ' + sspData.di)
 
       // random number to prevent caching
