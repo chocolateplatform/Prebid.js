@@ -3,7 +3,7 @@
 ```
 Module Name: chocolate Bidder Adapter
 Module Type: Bidder Adapter
-Maintainer: support@lkqd.com
+Maintainer: kevin.kawai@chocolateplatform.com
 ```
 
 # Description
@@ -26,8 +26,21 @@ var videoAdUnit = [
     bids: [{
         bidder: 'chocolate',
         params: {
-            siteId: '662921',
-            placementId: '13144370'
+
+            ak: 'AX123',
+            adFormat: 'preappvideo',
+            channelType: 'site',
+            pageURL: 'http://mysite.com/awesome.html',
+            domain: 'mysite.com',
+            siteName: 'My Awesome Blog',
+            category: 'IAB12',
+            apiFramework: '1,2,3,4,5',
+            displayManager: 'Chocolate-Web',
+            displayManagerVer: '2.6.0-web',
+            version: '1.1',
+            dnt: '0',
+            size: '320x480'
+
         }
     }]
 }];

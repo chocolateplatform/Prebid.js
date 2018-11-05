@@ -4,7 +4,7 @@ import { BANNER, VIDEO } from 'src/mediaTypes';
 
 const BIDDER_CODE = 'chocolate';
 const BID_TTL_DEFAULT = 300;
-const ENDPOINT = 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php';
+const ENDPOINT = 'http://abhay.dev.vdopia.com/vast/rtb.php';
 
 const PARAM_OUTPUT_DEFAULT = 'vast';
 const PARAM_EXECUTION_DEFAULT = 'any';
@@ -33,8 +33,6 @@ function isBidRequestValid(bidRequest) {
       _isValidString(bidRequest.params.category) &&
       _isValidString(bidRequest.params.apiFramework) &&
       _isValidString(bidRequest.params.version) &&
-      _isValidString(bidRequest.params.di) &&
-      _isValidString(bidRequest.params.dif) &&
       _isValidString(bidRequest.params.size)) {
       if (bidRequest.params.hasOwnProperty('requester') && bidRequest.params.requester != null) {
         if (bidRequest.params.hasOwnProperty('requesterClose') && bidRequest.params.requesterClose != null) {
@@ -93,9 +91,8 @@ function buildRequests(validBidRequests) {
       sspData.category = bidRequest.params.category;
       sspData.apiFramework = bidRequest.params.apiFramework;
       sspData.version = bidRequest.params.version;
-      sspData.di = bidRequest.params.di;
-      sspData.dif = bidRequest.params.dif;
       sspData.size = bidRequest.params.size;
+      sspData.caller = 'prebid';
       sspData.prebid = true;
 
       // optional parameters
@@ -149,6 +146,12 @@ function buildRequests(validBidRequests) {
       }
       if (bidRequest.params.hasOwnProperty('dnt') && bidRequest.params.dnt != null) {
         sspData.dnt = bidRequest.params.dnt;
+      }
+      if (bidRequest.params.hasOwnProperty('dif') && bidRequest.params.dif != null) {
+        sspData.dif = bidRequest.params.dif;
+      }
+      if (bidRequest.params.hasOwnProperty('di') && bidRequest.params.di != null) {
+        sspData.di = bidRequest.params.di;
       }
       if (bidRequest.params.hasOwnProperty('requester') && bidRequest.params.requester != null) {
         sspData.requester = bidRequest.params.requester;
@@ -296,7 +299,7 @@ function interpretResponse(serverResponse, bidRequest) {
             bidResponse.vastXml = responseObj.seatbid[0].bid[0].adm;
             bidResponse.cpm = responseObj.seatbid[0].bid[0].price;
             bidResponse.creativeId = responseObj.seatbid[0].bid[0].crid;
-            console.log('bidResponse.vastXml: ' + bidResponse.vastXml);
+            console.log('bidResponse.cpm: ' + bidResponse.cpm + ' vastXml: ' + bidResponse.vastXml);
             bidResponse.currency = responseObj.cur;
             bidResponse.width = bidRequest.data.bidWidth;
             bidResponse.height = bidRequest.data.bidHeight;

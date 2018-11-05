@@ -57,7 +57,7 @@
 		bids: [{
                 bidder: 'chocolate',
                 params: {
-                        ak: '55WFb8',
+                        ak: 'AX123',
                         adFormat: 'preappvideo',
                         channelType: 'site',
                         pageURL: 'http://mysite.com/awesome.html',
@@ -70,11 +70,8 @@
                         version: '1.1',
                         dnt: '0',
                         gdpr: 0,
-                        consent: '',
-                        di: 'cookie or partner unique user identifier',
-                        dif: 'fpcm or tpcm or pid',
                         size: '320x480',
-                        testEndPoint: 'http://test.instachat.us/hi.jsp',
+                        testEndPoint: 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php',
 
 				video: {
                             		skippable: true,
@@ -112,6 +109,7 @@
                         var videoUrl = pbjs.adServers.dfp.buildVideoUrl({
                             adUnit: videoAdUnit,
                             params: {
+                                //unit: '24323424',
                                 iu: '/19968336/prebid_cache_video_adunit',
                                 cust_params: {
                                     section: 'blog',
