@@ -252,7 +252,7 @@ function buildRequests(validBidRequests) {
       if (bidRequest.params.hasOwnProperty('emailhash') && bidRequest.params.emailhash != null) {
         sspData.emailhash = bidRequest.params.emailhash;
       }
-      console.log('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework + ' di: ' + sspData.di)
+      console.log('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework)
 
       // random number to prevent caching
       sspData.rnd = Math.floor(Math.random() * 999999999);
@@ -290,24 +290,24 @@ function interpretResponse(serverResponse, bidRequest) {
         if (bidRequest && bidRequest.data && bidRequest.data.bidId && bidRequest.data.bidId !== '') {
           console.log('interpretResponse: 4')
           let responseObj = serverResponse.body;
-
           if (responseObj != null) {
-            console.log('interpretResponse: 5')
             bidResponse.requestId = bidRequest.data.bidId;
             bidResponse.bidderCode = BIDDER_CODE;
             bidResponse.vastUrl = '';
             bidResponse.vastXml = responseObj.seatbid[0].bid[0].adm;
             bidResponse.cpm = responseObj.seatbid[0].bid[0].price;
             bidResponse.creativeId = responseObj.seatbid[0].bid[0].crid;
-            console.log('bidResponse.cpm: ' + bidResponse.cpm + ' vastXml: ' + bidResponse.vastXml);
+            console.log('interpretResponse bidResponse.cpm: ' + bidResponse.cpm);
             bidResponse.currency = responseObj.cur;
             bidResponse.width = bidRequest.data.bidWidth;
             bidResponse.height = bidRequest.data.bidHeight;
+            console.log('interpretResponse: width/height: ' + bidResponse.width + '/' + bidResponse.height)
             bidResponse.ttl = BID_TTL_DEFAULT;
             bidResponse.netRevenue = true;
             bidResponse.mediaType = VIDEO;
 
             bidResponses.push(bidResponse);
+            console.log('interpretResponse: 5 bidId: ' + bidRequest.data.bidId)
           } else {
             utils.logError('Error: Server response contained invalid XML');
           }
