@@ -21,7 +21,8 @@ var videoAdUnit = [
     code: 'video1',
     sizes: [
         [300, 250],
-        [640, 480]
+        [320, 480],
+        [768, 1024]
     ],
     bids: [{
         bidder: 'chocolate',
@@ -38,8 +39,7 @@ var videoAdUnit = [
             displayManager: 'Chocolate-Web',
             displayManagerVer: '2.6.0-web',
             version: '1.1',
-            dnt: '0',
-            size: '320x480'
+            dnt: '0'
 
         }
     }]

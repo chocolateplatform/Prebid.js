@@ -32,7 +32,7 @@ describe('Chocolate Bid Adapter Test', function () {
         'testEndPoint': 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php'
       },
       'adUnitCode': 'video1',
-      'sizes': [[300, 250], [640, 480]],
+      'sizes': [[300, 250], [320, 480], [768, 1024]],
       'bidId': '30b31c1838de1e',
       'bidderRequestId': '22edbae2733bf6',
       'requestId': 'a09c66c3-53e3-4428-b296-38fc08e7cd2a',
@@ -47,7 +47,7 @@ describe('Chocolate Bid Adapter Test', function () {
       let bid = Object.assign({}, bid);
       delete bid.params;
       bid.params = {
-        wrong: 'missing zone id'
+        wrong: 'missing required param'
       };
       expect(spec.isBidRequestValid(bid)).to.equal(false);
     });
@@ -72,11 +72,10 @@ describe('Chocolate Bid Adapter Test', function () {
           'version': '1.1',
           'dnt': '0',
           'gdpr': 0,
-          'size': '320x480',
           'testEndPoint': 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php'
         },
         'adUnitCode': 'chocolate',
-        'sizes': [[300, 250], [640, 480]],
+        'sizes': [[300, 250], [320, 480], [768, 1024]],
         'bidId': '30b31c1838de1e',
         'bidderRequestId': '22edbae2733bf6',
         'requestId': 'a09c66c3-53e3-4428-b296-38fc08e7cd2a',
@@ -100,11 +99,10 @@ describe('Chocolate Bid Adapter Test', function () {
           'version': '1.1',
           'dnt': '0',
           'gdpr': 0,
-          'size': '320x480',
           'testEndPoint': 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php'
         },
         'adUnitCode': 'chocolate',
-        'sizes': [640, 480],
+        'sizes': [300, 250],
         'bidId': '30b31c1838de1e',
         'bidderRequestId': '22edbae2733bf6',
         'requestId': 'a09c66c3-53e3-4428-b296-38fc08e7cd2a',
@@ -114,14 +112,14 @@ describe('Chocolate Bid Adapter Test', function () {
 
     it('should populate available parameters', function () {
       const requests = spec.buildRequests(bidRequests);
-      expect(requests.length).to.equal(2);
+      expect(requests.length).to.equal(3);
       const r1 = requests[0].data;
       expect(r1).to.have.property('ak');
       expect(r1.ak).to.equal('AX123');
       expect(r1).to.have.property('adFormat');
       expect(r1.adFormat).to.equal('preappvideo');
       expect(r1).to.have.property('size');
-      expect(r1.size).to.equal('320x480');
+      expect(r1.size).to.equal('300x250');
       expect(r1).to.have.property('width');
       expect(r1.width).to.equal(300);
       expect(r1).to.have.property('height');
@@ -132,16 +130,28 @@ describe('Chocolate Bid Adapter Test', function () {
       expect(r2).to.have.property('adFormat');
       expect(r2.adFormat).to.equal('preappvideo');
       expect(r2).to.have.property('width');
-      expect(r2.width).to.equal(640);
+      expect(r2.width).to.equal(320);
       expect(r2).to.have.property('height');
       expect(r2.height).to.equal(480);
       expect(r2).to.have.property('size');
       expect(r2.size).to.equal('320x480');
+
+      const r3 = requests[2].data;
+      expect(r3).to.have.property('ak');
+      expect(r3.ak).to.equal('AX123');
+      expect(r2).to.have.property('adFormat');
+      expect(r3.adFormat).to.equal('preappvideo');
+      expect(r3).to.have.property('width');
+      expect(r3.width).to.equal(768);
+      expect(r3).to.have.property('height');
+      expect(r3.height).to.equal(1024);
+      expect(r3).to.have.property('size');
+      expect(r3.size).to.equal('768x1024');
     });
 
     it('should not populate unspecified parameters', function () {
       const requests = spec.buildRequests(bidRequests);
-      expect(requests.length).to.equal(2);
+      expect(requests.length).to.equal(3);
       const r1 = requests[0].data;
       expect(r1).to.not.have.property('pageurl');
       expect(r1).to.not.have.property('contentid');
@@ -165,14 +175,16 @@ describe('Chocolate Bid Adapter Test', function () {
       expect(r1).to.have.property('adFormat');
       expect(r1.adFormat).to.equal('preappvideo');
       expect(r1).to.have.property('width');
-      expect(r1.width).to.equal(640);
+      expect(r1.width).to.equal(300);
       expect(r1).to.have.property('height');
-      expect(r1.height).to.equal(480);
+      expect(r1.height).to.equal(250);
+      expect(r1).to.have.property('size');
+      expect(r1.size).to.equal('300x250');
     });
 
     it('sends bid request to ENDPOINT via GET', function () {
       const requests = spec.buildRequests(bidRequests);
-      expect(requests.length).to.equal(2);
+      expect(requests.length).to.equal(3);
       const r1 = requests[0];
       expect(r1.url).to.contain(ENDPOINT);
       expect(r1.method).to.equal('GET');

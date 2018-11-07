@@ -32,8 +32,7 @@ function isBidRequestValid(bidRequest) {
       _isValidString(bidRequest.params.siteName) &&
       _isValidString(bidRequest.params.category) &&
       _isValidString(bidRequest.params.apiFramework) &&
-      _isValidString(bidRequest.params.version) &&
-      _isValidString(bidRequest.params.size)) {
+      _isValidString(bidRequest.params.version)) {
       if (bidRequest.params.hasOwnProperty('requester') && bidRequest.params.requester != null) {
         if (bidRequest.params.hasOwnProperty('requesterClose') && bidRequest.params.requesterClose != null) {
           return parseInt(bidRequest.params.requesterClose) >= -1;
@@ -57,7 +56,7 @@ function buildRequests(validBidRequests) {
     // if width/height not provided to the ad unit for some reason then attempt request with default 640x480 size
     if (!bidRequest.sizes || !bidRequest.sizes.length) {
       utils.logWarn('Warning: Could not find valid width/height parameters on the provided adUnit');
-      bidRequest.sizes = [[640, 480]];
+      bidRequest.sizes = [[320, 480]];
     }
 
     // JWPlayer demo page uses sizes: [640,480] instead of sizes: [[640,480]] so need to handle single-layer array as well as nested arrays
@@ -91,7 +90,7 @@ function buildRequests(validBidRequests) {
       sspData.category = bidRequest.params.category;
       sspData.apiFramework = bidRequest.params.apiFramework;
       sspData.version = bidRequest.params.version;
-      sspData.size = bidRequest.params.size;
+      sspData.size = playerWidth + 'x' + playerHeight;
       sspData.caller = 'prebid';
       sspData.prebid = true;
 
@@ -252,7 +251,7 @@ function buildRequests(validBidRequests) {
       if (bidRequest.params.hasOwnProperty('emailhash') && bidRequest.params.emailhash != null) {
         sspData.emailhash = bidRequest.params.emailhash;
       }
-      console.log('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework)
+      console.log('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework + ' sspData.size: ' + sspData.size)
 
       // random number to prevent caching
       sspData.rnd = Math.floor(Math.random() * 999999999);
