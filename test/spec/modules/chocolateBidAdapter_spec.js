@@ -36,9 +36,6 @@ describe('Chocolate Bid Adapter Test', function () {
       'adUnitCode': 'video1',
       'sizes': [[300, 250], [320, 480], [768, 1024]],
       'bidId': '30b31c1838de1e',
-      'bidderRequestId': '22edbae2733bf6',
-      'requestId': 'a09c66c3-53e3-4428-b296-38fc08e7cd2a',
-      'transactionId': 'd6f6b392-54a9-454c-85fb-a2fd882c4a2d',
     };
 
     it('should return true when required params found', function () {
@@ -78,9 +75,6 @@ describe('Chocolate Bid Adapter Test', function () {
         'adUnitCode': 'chocolate',
         'sizes': [[300, 250], [320, 480], [768, 1024]],
         'bidId': '30b31c1838de1e',
-        'bidderRequestId': '22edbae2733bf6',
-        'requestId': 'a09c66c3-53e3-4428-b296-38fc08e7cd2a',
-        'transactionId': 'd6f6b392-54a9-454c-85fb-a2fd882c4a2d',
       }
     ];
     let bidRequest = [
@@ -105,9 +99,6 @@ describe('Chocolate Bid Adapter Test', function () {
         'adUnitCode': 'chocolate',
         'sizes': [300, 250],
         'bidId': '30b31c1838de1e',
-        'bidderRequestId': '22edbae2733bf6',
-        'requestId': 'a09c66c3-53e3-4428-b296-38fc08e7cd2a',
-        'transactionId': 'd6f6b392-54a9-454c-85fb-a2fd882c4a2d',
       }
     ];
 
