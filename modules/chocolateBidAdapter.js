@@ -2,9 +2,10 @@ import * as utils from 'src/utils';
 import { registerBidder } from 'src/adapters/bidderFactory';
 import { BANNER, VIDEO } from 'src/mediaTypes';
 
+const IS_CONSOLE_LOG_ON = true;
 const BIDDER_CODE = 'chocolate';
 const BID_TTL_DEFAULT = 300;
-const ENDPOINT = 'http://abhay.dev.vdopia.com/vast/rtb.php';
+const ENDPOINT = 'http://chocolate2-staging.vdopia.com/adserver/html5/inwapads/';
 
 const PARAM_OUTPUT_DEFAULT = 'vast';
 const PARAM_EXECUTION_DEFAULT = 'any';
@@ -12,8 +13,14 @@ const PARAM_SUPPORT_DEFAULT = 'html5';
 const PARAM_PLAYINIT_DEFAULT = 'auto';
 const PARAM_VOLUME_DEFAULT = '100';
 
+function consoleLog(message) {
+  if (IS_CONSOLE_LOG_ON) {
+    console.log(message)
+  }
+}
+
 function _isValidString(someStr) {
-  console.log('_isValidString')
+  consoleLog('_isValidString')
   if (someStr && typeof someStr !== 'undefined') {
     return true;
   }
@@ -22,7 +29,7 @@ function _isValidString(someStr) {
 }
 
 function isBidRequestValid(bidRequest) {
-  console.log('isBidRequestValid')
+  consoleLog('isBidRequestValid')
   if (bidRequest.bidder === BIDDER_CODE && typeof bidRequest.params !== 'undefined') {
     if (_isValidString(bidRequest.params.ak) &&
       _isValidString(bidRequest.params.adFormat) &&
@@ -39,16 +46,16 @@ function isBidRequestValid(bidRequest) {
         }
       }
 
-      console.log('isBidRequestValid: true')
+      consoleLog('isBidRequestValid: true')
       return true;
     }
   }
-  console.log('isBidRequestValid: not a valid bid request; check website required bid params')
+  consoleLog('isBidRequestValid: not a valid bid request; check website required bid params')
   return false;
 }
 
 function buildRequests(validBidRequests) {
-  console.log('buildRequests')
+  consoleLog('buildRequests')
   let bidRequests = [];
   for (let i = 0; i < validBidRequests.length; i++) {
     let bidRequest = validBidRequests[i];
@@ -251,7 +258,7 @@ function buildRequests(validBidRequests) {
       if (bidRequest.params.hasOwnProperty('emailhash') && bidRequest.params.emailhash != null) {
         sspData.emailhash = bidRequest.params.emailhash;
       }
-      console.log('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework + ' sspData.size: ' + sspData.size)
+      consoleLog('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework + ' sspData.size: ' + sspData.size)
 
       // random number to prevent caching
       sspData.rnd = Math.floor(Math.random() * 999999999);
@@ -274,20 +281,20 @@ function buildRequests(validBidRequests) {
 }
 
 function interpretResponse(serverResponse, bidRequest) {
-  console.log('interpretResponse: ' + serverResponse.body)
+  consoleLog('interpretResponse: ' + serverResponse.body)
   let bidResponses = [];
   if (serverResponse && serverResponse.body) {
-    console.log('interpretResponse: 1')
+    consoleLog('interpretResponse: 1')
     if (serverResponse.error) {
-      console.log('interpretResponse: 2')
+      consoleLog('interpretResponse: 2')
       utils.logError('Error: ' + serverResponse.error);
       return bidResponses;
     } else {
       try {
-        console.log('interpretResponse: 3')
+        consoleLog('interpretResponse: 3')
         let bidResponse = {};
         if (bidRequest && bidRequest.data && bidRequest.data.bidId && bidRequest.data.bidId !== '') {
-          console.log('interpretResponse: 4')
+          consoleLog('interpretResponse: 4')
           let responseObj = serverResponse.body;
           if (responseObj != null) {
             bidResponse.requestId = bidRequest.data.bidId;
@@ -296,17 +303,17 @@ function interpretResponse(serverResponse, bidRequest) {
             bidResponse.vastXml = responseObj.seatbid[0].bid[0].adm;
             bidResponse.cpm = responseObj.seatbid[0].bid[0].price;
             bidResponse.creativeId = responseObj.seatbid[0].bid[0].crid;
-            console.log('interpretResponse bidResponse.cpm: ' + bidResponse.cpm);
+            consoleLog('interpretResponse bidResponse.cpm: ' + bidResponse.cpm);
             bidResponse.currency = responseObj.cur;
             bidResponse.width = bidRequest.data.bidWidth;
             bidResponse.height = bidRequest.data.bidHeight;
-            console.log('interpretResponse: width/height: ' + bidResponse.width + '/' + bidResponse.height)
+            consoleLog('interpretResponse: width/height: ' + bidResponse.width + '/' + bidResponse.height)
             bidResponse.ttl = BID_TTL_DEFAULT;
             bidResponse.netRevenue = true;
             bidResponse.mediaType = VIDEO;
 
             bidResponses.push(bidResponse);
-            console.log('interpretResponse: 5 bidId: ' + bidRequest.data.bidId)
+            consoleLog('interpretResponse: 5 bidId: ' + bidRequest.data.bidId)
           } else {
             utils.logError('Error: Server response contained invalid XML');
           }
@@ -332,5 +339,5 @@ export const spec = {
   interpretResponse
 }
 
-console.log('before registerBidder')
+consoleLog('before registerBidder')
 registerBidder(spec);
