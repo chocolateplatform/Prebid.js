@@ -1,6 +1,8 @@
 import { spec } from 'modules/chocolateBidAdapter';
 import { newBidder } from 'src/adapters/bidderFactory';
 const { expect } = require('chai');
+const ENDPOINT = 'http://chocolate2-staging.vdopia.com/adserver/html5/inwapads/';
+const API_KEY = '55WFb8';
 
 describe('Chocolate Bid Adapter Test', function () {
   const adapter = newBidder(spec);
@@ -15,7 +17,7 @@ describe('Chocolate Bid Adapter Test', function () {
     let bid = {
       'bidder': 'chocolate',
       'params': {
-        'ak': 'AX123',
+        'ak': API_KEY,
         'adFormat': 'preappvideo',
         'channelType': 'site',
         'pageURL': 'http://mysite.com/awesome.html',
@@ -29,7 +31,7 @@ describe('Chocolate Bid Adapter Test', function () {
         'dnt': '0',
         'gdpr': 0,
         'size': '320x480',
-        'testEndPoint': 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php'
+        'testEndPoint': ENDPOINT
       },
       'adUnitCode': 'video1',
       'sizes': [[300, 250], [320, 480], [768, 1024]],
@@ -54,12 +56,11 @@ describe('Chocolate Bid Adapter Test', function () {
   });
 
   describe('buildRequests', function () {
-    const ENDPOINT = 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php';
     let bidRequests = [
       {
         'bidder': 'chocolate',
         'params': {
-          'ak': 'AX123',
+          'ak': API_KEY,
           'adFormat': 'preappvideo',
           'channelType': 'site',
           'pageURL': 'http://mysite.com/awesome.html',
@@ -72,7 +73,7 @@ describe('Chocolate Bid Adapter Test', function () {
           'version': '1.1',
           'dnt': '0',
           'gdpr': 0,
-          'testEndPoint': 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php'
+          'testEndPoint': ENDPOINT
         },
         'adUnitCode': 'chocolate',
         'sizes': [[300, 250], [320, 480], [768, 1024]],
@@ -86,7 +87,7 @@ describe('Chocolate Bid Adapter Test', function () {
       {
         'bidder': 'chocolate',
         'params': {
-          'ak': 'AX123',
+          'ak': API_KEY,
           'adFormat': 'preappvideo',
           'channelType': 'site',
           'pageURL': 'http://mysite.com/awesome.html',
@@ -99,7 +100,7 @@ describe('Chocolate Bid Adapter Test', function () {
           'version': '1.1',
           'dnt': '0',
           'gdpr': 0,
-          'testEndPoint': 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php'
+          'testEndPoint': ENDPOINT
         },
         'adUnitCode': 'chocolate',
         'sizes': [300, 250],
@@ -115,7 +116,7 @@ describe('Chocolate Bid Adapter Test', function () {
       expect(requests.length).to.equal(3);
       const r1 = requests[0].data;
       expect(r1).to.have.property('ak');
-      expect(r1.ak).to.equal('AX123');
+      expect(r1.ak).to.equal(API_KEY);
       expect(r1).to.have.property('adFormat');
       expect(r1.adFormat).to.equal('preappvideo');
       expect(r1).to.have.property('size');
@@ -126,7 +127,7 @@ describe('Chocolate Bid Adapter Test', function () {
       expect(r1.height).to.equal(250);
       const r2 = requests[1].data;
       expect(r2).to.have.property('ak');
-      expect(r2.ak).to.equal('AX123');
+      expect(r2.ak).to.equal(API_KEY);
       expect(r2).to.have.property('adFormat');
       expect(r2.adFormat).to.equal('preappvideo');
       expect(r2).to.have.property('width');
@@ -138,7 +139,7 @@ describe('Chocolate Bid Adapter Test', function () {
 
       const r3 = requests[2].data;
       expect(r3).to.have.property('ak');
-      expect(r3.ak).to.equal('AX123');
+      expect(r3.ak).to.equal(API_KEY);
       expect(r2).to.have.property('adFormat');
       expect(r3.adFormat).to.equal('preappvideo');
       expect(r3).to.have.property('width');
@@ -171,7 +172,7 @@ describe('Chocolate Bid Adapter Test', function () {
       expect(requests.length).to.equal(1);
       const r1 = requests[0].data;
       expect(r1).to.have.property('ak');
-      expect(r1.ak).to.equal('AX123');
+      expect(r1.ak).to.equal(API_KEY);
       expect(r1).to.have.property('adFormat');
       expect(r1.adFormat).to.equal('preappvideo');
       expect(r1).to.have.property('width');
@@ -196,7 +197,7 @@ describe('Chocolate Bid Adapter Test', function () {
 
   describe('interpretResponse', function () {
     let bidRequest = {
-      'url': 'http://abhay.dev.vdopia.com/vast/rtb_vpaid.php',
+      'url': ENDPOINT,
       'data': {
         'bidId': '253dcb69fb2577',
         'bidWidth': '640',
