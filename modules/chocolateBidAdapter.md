@@ -12,7 +12,7 @@ Connects to chocolate exchange for bids.
 
 chocolate bid adapter supports Video ads currently.
 
-For more information about [chocolate Ad Serving and Management](http://www.lkqd.com/ad-serving-and-management/), please contact [info@lkqd.com](info@lkqd.com).
+For more information about [chocolate Ad Serving and Management](https://vdopia.atlassian.net/wiki/spaces/RC/pages/34177028/Web+Server+Ad+API+-+v1.1), please contact [gdm@chocolateplatform.com](gdm@chocolateplatform.com).
 
 # Sample Ad Unit: For Publishers
 ```javascript
@@ -28,18 +28,18 @@ var videoAdUnit = [
         bidder: 'chocolate',
         params: {
 
-            ak: 'AX123',
-            adFormat: 'preappvideo',
-            channelType: 'site',
-            pageURL: 'http://mysite.com/awesome.html',
-            domain: 'mysite.com',
-            siteName: 'My Awesome Blog',
-            category: 'IAB12',
-            apiFramework: '1,2,3,4,5',
-            displayManager: 'Chocolate-Web',
-            displayManagerVer: '2.6.0-web',
-            version: '1.1',
-            dnt: '0'
+        'ak': 'AX123',
+        'adFormat': 'preappvideo',
+        'channelType': 'site',
+        'pageURL': 'http://mysite.com/awesome.html',
+        'domain': 'mysite.com',
+        'siteName': 'My Awesome Blog',
+        'category': 'IAB12',
+        'version': '1.1',
+        'apiFramework': '2,5',
+        'di': 'cookie or partner unique user identifier',
+        'dif': 'fpcm',
+        'size': '320x480'
 
         }
     }]

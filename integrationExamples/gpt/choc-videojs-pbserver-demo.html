@@ -57,29 +57,46 @@
                 bids: [{
                         bidder: 'chocolate',
                         params: {
-                                ak: '55WFb8',
+                                ak: 'AX12345',
                                 adFormat: 'preappvideo',
                                 channelType: 'site',
                                 pageURL: 'http://mysite.com/awesome.html',
                                 domain: 'mysite.com',
                                 siteName: 'My Awesome Blog',
                                 category: 'IAB12',
-                                apiFramework: '1,2,3,4,5',
+                                version: '1.1',
+                                apiFramework: '2,5',
+                                di: 'cookie or partner unique user identifier',
+                                dif: 'fpcm',
+                                size: '320x480',
+
                                 displayManager: 'Chocolate-Web',
                                 displayManagerVer: '2.6.0-web',
-                                version: '1.1',
                                 dnt: '0',
-                                gdpr: 0,
+                                gdpr: 1,
+                                consent: 'gdpr-consent',
+                                requester: 'rovio',
+                                requesterClose: 5,
+                                autorender: 1,
+                                showClose: 1,
+                                closeTimeout: 2,
+
+                                sex: 'M',
+                                age: 25,
+                                postalcode: '94108',
+                                maritalstatus: 'Single',
+                                geo: 'US:CA:San Francisco',
+                                emailhash: '1234123423',
+                                telhash: '5675675675',
+
                                 testEndPoint: 'http://chocolate2-staging.vdopia.com/adserver/html5/inwapads/',
 
                         video: {
-                                            skippable: true,
-                                            playback_method: ['auto_play_sound_off']
-                                    }
+                                skippable: true,
+                                playback_method: ['auto_play_sound_off']
+                               }
                             }
                     }
-
-
 
                 ]
             };

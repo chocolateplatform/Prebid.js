@@ -5,7 +5,7 @@ import { BANNER, VIDEO } from 'src/mediaTypes';
 const IS_CONSOLE_LOG_ON = true;
 const BIDDER_CODE = 'chocolate';
 const BID_TTL_DEFAULT = 300;
-const ENDPOINT = 'http://chocolate2-staging.vdopia.com/adserver/html5/inwapads/';
+const ENDPOINT = 'http://serve.vdopia.com/adserver/html5/inwapads/';
 
 const PARAM_OUTPUT_DEFAULT = 'vast';
 const PARAM_EXECUTION_DEFAULT = 'any';
@@ -258,10 +258,11 @@ function buildRequests(validBidRequests) {
       if (bidRequest.params.hasOwnProperty('emailhash') && bidRequest.params.emailhash != null) {
         sspData.emailhash = bidRequest.params.emailhash;
       }
-      consoleLog('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework + ' sspData.size: ' + sspData.size)
 
       // random number to prevent caching
-      sspData.rnd = Math.floor(Math.random() * 999999999);
+      sspData.cb = Math.floor(Math.random() * 999999999);
+
+      consoleLog('sspUrl: ' + sspUrl + ' sspData: ' + sspData.ak + ' adFormat: ' + sspData.adFormat + ' apiFramework: ' + sspData.apiFramework + ' sspData.size: ' + sspData.size + ' cb: ' + sspData.cb)
 
       // Prebid.js required properties
       sspData.bidId = bidRequest.bidId;
