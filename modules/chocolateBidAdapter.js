@@ -1,6 +1,6 @@
 import * as utils from 'src/utils';
 import { registerBidder } from 'src/adapters/bidderFactory';
-import { BANNER, VIDEO } from 'src/mediaTypes';
+import { VIDEO } from 'src/mediaTypes';
 
 const IS_CONSOLE_LOG_ON = true;
 const BIDDER_CODE = 'chocolate';
