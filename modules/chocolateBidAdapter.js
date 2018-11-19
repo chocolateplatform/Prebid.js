@@ -4,7 +4,7 @@ import { BANNER, VIDEO } from 'src/mediaTypes';
 
 const IS_CONSOLE_LOG_ON = true;
 const BIDDER_CODE = 'chocolate';
-const BID_TTL_DEFAULT = 300;
+const BID_TTL_DEFAULT = 2000;
 const ENDPOINT = 'http://serve.vdopia.com/adserver/html5/inwapads/';
 
 const PARAM_OUTPUT_DEFAULT = 'vast';
