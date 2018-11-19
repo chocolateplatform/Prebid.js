@@ -339,10 +339,10 @@ export const spec = {
   buildRequests,
   interpretResponse,
   onTimeout: function(timeoutData) {
-     consoleLog('onTimeout: bidder: ' + timeoutData.bidder + ' timeout: ' + timeoutData.timeout);
+    consoleLog('onTimeout: bidder: ' + timeoutData.bidder + ' timeout: ' + timeoutData.timeout);
   },
   onBidWon: function(bid) {
-     consoleLog('onBidWon: bidder: ' + bid.bidder + ' cpm: ' + bid.cpm);
+    consoleLog('onBidWon: bidder: ' + bid.bidder + ' cpm: ' + bid.cpm);
   }
 }
 
