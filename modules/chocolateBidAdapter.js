@@ -337,7 +337,13 @@ export const spec = {
   supportedMediaTypes: [BANNER, VIDEO],
   isBidRequestValid,
   buildRequests,
-  interpretResponse
+  interpretResponse,
+  onTimeout: function(timeoutData) {
+     consoleLog('onTimeout: bidder: ' + timeoutData.bidder + ' timeout: ' + timeoutData.timeout);
+  },
+  onBidWon: function(bid) {
+     consoleLog('onBidWon: bidder: ' + bid.bidder + ' cpm: ' + bid.cpm);
+  }
 }
 
 consoleLog('before registerBidder')
