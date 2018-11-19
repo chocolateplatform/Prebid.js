@@ -334,7 +334,7 @@ function interpretResponse(serverResponse, bidRequest) {
 
 export const spec = {
   code: BIDDER_CODE,
-  supportedMediaTypes: [BANNER, VIDEO],
+  supportedMediaTypes: [VIDEO],
   isBidRequestValid,
   buildRequests,
   interpretResponse,
